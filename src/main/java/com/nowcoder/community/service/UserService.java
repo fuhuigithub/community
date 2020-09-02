@@ -40,10 +40,12 @@ public class UserService implements CommunityConstant {
     @Autowired
     private LoginTicketMapper loginTicketMapper;
 
+    // 根据id查询用户
     public User findUserById(int id) {
         return userMapper.selectById(id);
     }
 
+    // 注册方法
     public Map<String, Object> register(User user) {
         Map<String, Object> map = new HashMap<>();
 
@@ -100,6 +102,7 @@ public class UserService implements CommunityConstant {
         return map;
     }
 
+    // 激活方法
     public int activation(int userId, String code) {
         User user = userMapper.selectById(userId);
         if (user.getStatus() == 1) {
@@ -112,6 +115,7 @@ public class UserService implements CommunityConstant {
         }
     }
 
+    // 登录方法
     public Map<String, Object> login(String username, String password, int expiredSeconds) {
         Map<String, Object> map = new HashMap<>();
 
@@ -157,16 +161,24 @@ public class UserService implements CommunityConstant {
         return map;
     }
 
+    // 根据凭证修改用户状态
     public void logout(String ticket) {
         loginTicketMapper.updateStatus(ticket, 1);
     }
 
+    // 获取登录凭证的方法
     public LoginTicket findLoginTicket(String ticket) {
         return loginTicketMapper.selectByTicket(ticket);
     }
 
+    // 修改头像方法
     public int updateHeader(int userId, String headerUrl) {
         return userMapper.updateHeader(userId, headerUrl);
+    }
+
+    // 根据用户名查询用户
+    public User findUserByName(String username) {
+        return userMapper.selectByName(username);
     }
 
 }
